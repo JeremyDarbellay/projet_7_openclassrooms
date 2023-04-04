@@ -1,0 +1,1 @@
+// cors params for the app
