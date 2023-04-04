@@ -5,7 +5,7 @@ const router = express.Router()
 
 const booksController = require('../controllers/books')
 
-router.get('/', booksController.RateOneBook)
+router.get('/', booksController.getAllBooks)
 router.get('/:id', booksController.getOneBook)
 router.get('/bestrating', booksController.getBestRatedBooks)
 

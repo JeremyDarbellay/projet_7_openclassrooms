@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { dbUser, dbPass } = require('../config.json')
 
-mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0.m9miyeb.mongodb.net/?retryWrites=true&w=majority`,
+module.exports = mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0.m9miyeb.mongodb.net/?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
