@@ -11,9 +11,10 @@ router.get("/:id", booksController.getOneBook);
 
 // middleware auth
 const authentification = require('../middlewares/authentification');
+const multer = require('../middlewares/multer');
 
-router.post("/", authentification, booksController.createOneBook);
-router.put("/:id", authentification, booksController.modifyOneBook);
+router.post("/", authentification, multer, booksController.createOneBook);
+router.put("/:id", authentification, multer, booksController.modifyOneBook);
 router.delete("/:id", authentification, booksController.deleteOneBook);
 router.post("/:id/ratings", authentification, booksController.RateOneBook);
 
