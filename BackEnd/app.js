@@ -1,17 +1,24 @@
 const express = require("express");
-// middleware
 const cors = require("./middlewares/cors");
 
 const app = express();
+/** parse body as json */
+app.use(express.json());
+/** cors config for our server */
+app.use(cors);
 
 const connexion = require('./config/db');
 
-app.use(cors);
-
-const authentificationRoutes = require("./routes/authentification");
+const userRoutes = require("./routes/user");
 const booksRoutes = require("./routes/books");
 
-app.use('/api/books', booksRoutes)
+app.use('/api/books', booksRoutes);
+app.use('/api/auth', userRoutes);
+
+/**
+ * Not Found Route
+ * catch all other routes
+ */
 app.use('*', (req, res) => { res.status(404).json({ message: "Not Found"}) })
 
 module.exports = app;

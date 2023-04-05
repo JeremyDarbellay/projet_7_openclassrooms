@@ -1,19 +1,20 @@
 // routeur livres
 
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const booksController = require('../controllers/books')
+const booksController = require("../controllers/books");
 
-router.get('/', booksController.getAllBooks)
-router.get('/:id', booksController.getOneBook)
-router.get('/bestrating', booksController.getBestRatedBooks)
+router.get("/", booksController.getAllBooks);
+router.get("/bestrating", booksController.getBestRatedBooks);
+router.get("/:id", booksController.getOneBook);
 
-router.post('/', booksController.createOneBook)
-router.put('/:id', booksController.updateOneBook)
-router.delete('/:id', booksController.deleteOneBook)
+// middleware auth
+const authentification = require('../middlewares/authentification');
 
-router.post('/:id/ratings', booksController.RateOneBook)
+router.post("/", authentification, booksController.createOneBook);
+router.put("/:id", authentification, booksController.modifyOneBook);
+router.delete("/:id", authentification, booksController.deleteOneBook);
+router.post("/:id/ratings", authentification, booksController.RateOneBook);
 
-
-module.exports = router
+module.exports = router;
