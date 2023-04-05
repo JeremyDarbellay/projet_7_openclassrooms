@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+let currentYear = new Date().getFullYear();
+
 /**
  * Define a subschema for book model
  */
@@ -17,10 +19,10 @@ const bookSchema = new mongoose.Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
     imageUrl: { type: String, required: true },
-    year: { type: Number, required: true },
+    year: { type: Number, max: currentYear, required: true },
     genre: { type: String, required: true },
     ratings: [rateSchema],
-    averageRating: { type: String, required: true },
+    averageRating: { type: Number, required: false },
 })
 
 const Book = mongoose.model( 'Book', bookSchema );
