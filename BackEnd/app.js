@@ -15,6 +15,9 @@ const booksRoutes = require("./routes/books");
 app.use('/api/books', booksRoutes);
 app.use('/api/auth', userRoutes);
 
+const path = require('path');
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
 /**
  * Not Found Route
  * catch all other routes
