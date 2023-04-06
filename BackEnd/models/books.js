@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 let currentYear = new Date().getFullYear();
 
 /**
- * Define a subschema for book model
+ * Define a subschema for grades
+ * in the book model
  */
 const rateSchema = new mongoose.Schema({
     userId: { type: String, required: true },
