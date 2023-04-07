@@ -16,6 +16,6 @@ const multer = require('../middlewares/multer');
 router.post("/", authentification, multer, booksController.createOneBook);
 router.put("/:id", authentification, multer, booksController.modifyOneBook);
 router.delete("/:id", authentification, booksController.deleteOneBook);
-router.post("/:id/ratings", authentification, booksController.RateOneBook);
+router.post("/:id/rating", authentification, booksController.RateOneBook);
 
 module.exports = router;
