@@ -1,4 +1,3 @@
 node_modules
 FrontEnd
-*.env
-config.json
+.env

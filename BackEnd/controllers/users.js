@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
-const { tokenSecretKey } = require('../config.json');
+const tokenSecretKey = process.env.TOKEN_SECRET_KEY;
 
 /**
  * create an user with
@@ -11,6 +11,7 @@ exports.createUser = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         .then( async (hashedPassword) => {
 
+            // check if user is already in db
             let user = await User.findOne( { email: req.body.email } );
 
             if (user) return res.status(400).json({ message: "User already registered !"});

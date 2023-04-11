@@ -9,7 +9,7 @@ let currentYear = new Date().getFullYear();
 const rateSchema = new mongoose.Schema({
     userId: { type: String, required: true },
     grade: { type: Number, min: 0, max: 5, required: true }
-})
+});
 
 /**
  * Create a schema to store books
