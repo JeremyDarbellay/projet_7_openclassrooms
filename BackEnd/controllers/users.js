@@ -11,11 +11,6 @@ exports.createUser = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         .then( async (hashedPassword) => {
 
-            // check if user is already in db
-            let user = await User.findOne( { email: req.body.email } );
-
-            if (user) return res.status(400).json({ message: "User already registered !"});
-
             user = new User({
                 email: req.body.email,
                 password: hashedPassword

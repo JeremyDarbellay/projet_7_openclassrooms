@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const mongooseUniqueValidator = require('mongoose-unique-validator')
+const mongooseUniqueValidator = require('mongoose-unique-validator');
 
 /**
  * use email regexp used by html input attribute "email"
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
 })
 
 // apply unique validation of user email.
-// userSchema.plugin(mongooseUniqueValidator);
+userSchema.plugin(mongooseUniqueValidator);
 
 const User = mongoose.model( 'User', userSchema );
 

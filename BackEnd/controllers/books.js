@@ -122,13 +122,19 @@ exports.createOneBook = (req, res, next) => {
 
 exports.RateOneBook = async (req, res, next) => {
 
-    let book = await Book.findById(req.params.id), userId = req.auth.userId;
+    let book = await Book.findById(req.params.id)
+        .catch( (error) => {
+            return res.status(400).json({ error });
+        });
+    const userId = req.auth.userId;
 
     /** @type {Array} */
     const ratingArray = book.ratings
 
     if ( ratingArray.filter(( ratedByUser => userId == book.userId )).length > 0 ) return res.status(403).json({ message: "Already rated" });
 
+    // just checking that rate is a number before updating average rate
+    // because validation occurs on save
     if ( typeof (req.body.rating) !== "number" ) return res.status(400).json({ message: "rating is NaN" });
 
     book.ratings.push({ userId: userId, grade: req.body.rating });
