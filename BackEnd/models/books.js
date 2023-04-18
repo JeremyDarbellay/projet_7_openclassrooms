@@ -1,6 +1,27 @@
 const mongoose = require('mongoose');
+const validator = require('mongoose-validator');
 
 let currentYear = new Date().getFullYear();
+
+/*
+ * input validations
+ */
+const stringValidation = [
+    validator({
+        validator: (val) => {
+            return Object.prototype.toString.call(val) === '[object String]';
+          },
+          message: 'Not a string'
+    })
+];
+
+const intValidation = [
+    validator({
+        validator: (val) => {
+            return Number.isInteger(val);
+        }
+    })
+];
 
 /**
  * Define a subschema for grades
@@ -8,7 +29,7 @@ let currentYear = new Date().getFullYear();
  */
 const rateSchema = new mongoose.Schema({
     userId: { type: String, required: true },
-    grade: { type: Number, min: 0, max: 5, required: true }
+    grade: { type: Number, min: 0, max: 5, required: true, validate: intValidation }
 });
 
 /**
@@ -17,11 +38,11 @@ const rateSchema = new mongoose.Schema({
  */
 const bookSchema = new mongoose.Schema({
     userId: { type: String, required: true },
-    title: { type: String, required: true },
-    author: { type: String, required: true },
+    title: { type: String, required: true, validate: stringValidation },
+    author: { type: String, required: true, validate: stringValidation },
     imageUrl: { type: String, required: true },
-    year: { type: Number, max: currentYear, required: true },
-    genre: { type: String, required: true },
+    year: { type: Number, max: currentYear, required: true, validate: intValidation },
+    genre: { type: String, required: true, validate: stringValidation  },
     ratings: [rateSchema],
     averageRating: { type: Number, required: false },
 })

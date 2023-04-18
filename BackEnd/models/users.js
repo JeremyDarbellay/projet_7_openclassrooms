@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 const mongooseUniqueValidator = require('mongoose-unique-validator');
+const validator = require('mongoose-validator');
+
+const emailValidation = [
+    validator({
+        validator: 'isEmail'
+    })
+]
 
 /**
  * use email regexp used by html input attribute "email"
@@ -14,7 +21,7 @@ const emailHtmlValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-
  * @constructor User
  */
 const userSchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true, match: [emailHtmlValidation] },
+    email: { type: String, required: true, unique: true, validate: emailValidation },
     password: { type: String, required: true }
 })
 

@@ -17,11 +17,11 @@ exports.createUser = (req, res, next) => {
             });
 
             user.save()
-                .then( () => res.status(201).json({ message: "Successful registration !"}))
-                .catch( (error) => res.status(400).json({ error }));
+                .then( () => res.status(201).json({ message: "Utilisateur enregistré"}))
+                .catch( (error) => res.status(400).json({ error: { message: error.message } }));
                 
         })
-        .catch( error => res.status(400).json({ error }));
+        .catch( error => res.status(400).json({ error: { message: error.message } }));
 }
 
 /**
@@ -50,9 +50,9 @@ exports.loginUser = ( req, res, next ) => {
                         )
                     })
                 })
-                .catch( error => res.status(500).json({ error }))
+                .catch( error => res.status(500).json({ error: { message: error.message } }))
             
         })
-        .catch( error => res.status(500).json({ error }))
+        .catch( error => res.status(500).json({ error: { message: error.message } }))
 
 }
