@@ -11,10 +11,14 @@ router.get("/:id", booksController.getOneBook);
 
 // middleware auth
 const authentification = require('../middlewares/authentification');
+// file to memory
 const multer = require('../middlewares/multer');
+// image to webp
+const sharp = require('../middlewares/sharp');
 
-router.post("/", authentification, multer, booksController.createOneBook);
-router.put("/:id", authentification, multer, booksController.modifyOneBook);
+
+router.post("/", authentification, multer, sharp, booksController.createOneBook);
+router.put("/:id", authentification, multer, sharp, booksController.modifyOneBook);
 router.delete("/:id", authentification, booksController.deleteOneBook);
 router.post("/:id/rating", authentification, booksController.RateOneBook);
 

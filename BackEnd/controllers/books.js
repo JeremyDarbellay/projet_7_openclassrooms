@@ -37,9 +37,7 @@ exports.modifyOneBook = async (req, res, next) => {
   let bookObject = req.file
     ? {
         ...JSON.parse(req.body.book),
-        imageUrl: `${req.protocol}://${req.get("host")}/public/images/${
-          req.file.filename
-        }`,
+        imageUrl: req.imageUrl,
       }
     : {
         ...req.body,
@@ -61,8 +59,8 @@ exports.modifyOneBook = async (req, res, next) => {
     .then((updatedBook) => {
       // remove old image
       if (req.file) {
-        const oldImg = oldBook.imageUrl.split("/public/images/")[1];
-        fs.unlink(`public/images/${oldImg}`, (err) => {
+        const filename = oldBook.imageUrl.split("/public/images/")[1];
+        fs.unlink(`public/images/${filename}`, (err) => {
           if (err) throw err;
         });
       }
@@ -112,20 +110,32 @@ exports.createOneBook = (req, res, next) => {
   delete bookObject.ratings._userId;
 
   bookObject.userId = req.auth.userId;
-  bookObject.rating.userId = req.auth.userId;
+  bookObject.ratings.userId = req.auth.userId;
+
 
   const book = new Book({
     ...bookObject,
-    imageUrl: `${req.protocol}://${req.get("host")}/public/images/${
-      req.file.filename
-    }`,
+    imageUrl: req.imageUrl,
   });
 
+
   // test for correct type, because validation occurs on save
-  if (typeof book.ratings.grade !== "Number")
+  const grade = book.ratings[0].grade
+  if (typeof (grade) !== "number") {
+    console.log(typeof (grade));
+
+    // remove file because book rejected
+    const filename = book.imageUrl.split("/public/images/")[1];
+    fs.unlink(`public/images/${filename}`, (err) => {
+      if (err) {
+        console.log(err);throw err;}
+    });
+
     return res.status(400).json({ message: new Error("rate is NaN").message });
 
-  Math.round(book.rating.grade);
+  }
+
+  book.ratings[0].grade = Math.round(grade);
   book.averageRating = calculateAverageRating(book);
 
   book
@@ -133,9 +143,11 @@ exports.createOneBook = (req, res, next) => {
     .then(() => res.status(201).json({ message: "Livre ajouté" }))
     .catch((error) => {
       // remove file because book rejected
-      fs.unlink(`public/images/${req.file.filename}`, (err) => {
-        if (err) console.error(err);
+      const filename = book.imageUrl.split("/public/images/")[1];
+      fs.unlink(`public/images/${filename}`, (err) => {
+        if (err) throw err;
       });
+
       res.status(400).json({ error: { message: error.message } });
     });
 };
