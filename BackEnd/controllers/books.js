@@ -21,7 +21,7 @@ exports.getBestRatedBooks = (req, res, next) => {
   Book.find()
     .sort({ averageRating: "desc" })
     .then((descList) => {
-      const results = descList.slice(0, 2);
+      const results = descList.slice(0, 3);
       res.status(200).json(results);
     })
     .catch((error) =>
@@ -136,7 +136,7 @@ exports.createOneBook = (req, res, next) => {
   }
 
   book.ratings[0].grade = Math.round(grade);
-  book.averageRating = calculateAverageRating(book);
+  book.averageRating = book.ratings[0].grade;
 
   book
     .save()
@@ -156,6 +156,10 @@ exports.RateOneBook = async (req, res, next) => {
   let book = await Book.findById(req.params.id).catch((error) => {
     return res.status(400).json({ error: { message: error.message } });
   });
+
+  // if no books return 404
+  if (!book) return res.status(404).json({ error: { message: "livre introuvable" } });
+
   const userId = req.auth.userId;
 
   /** @type {Array} */
@@ -164,14 +168,14 @@ exports.RateOneBook = async (req, res, next) => {
   if (ratingArray.filter((rate) => userId == rate.userId).length > 0)
     return res
       .status(403)
-      .json({ message: new Error("Already rated").message });
+      .json({ message: new Error("Déjà noté !").message });
 
   // just checking that rate is a number before updating average rate
   // because validation occurs on save
   if (typeof req.body.rating !== "number")
     return res.status(400).json({ message: new Error("rate is NaN").message });
 
-  book.ratings.push({ userId: userId, grade: math.round(req.body.rating) });
+  book.ratings.push({ userId: userId, grade: Math.round(req.body.rating) });
 
   book.averageRating = calculateAverageRating(book);
 
