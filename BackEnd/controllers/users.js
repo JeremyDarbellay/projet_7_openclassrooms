@@ -8,6 +8,10 @@ const tokenSecretKey = process.env.TOKEN_SECRET_KEY;
  * hashed password
  */
 exports.createUser = (req, res, next) => {
+    // deny registration if no password
+    if (req.body.password !== '' || !req.body.password) return res.status(400).json({ error: { message: "Un mot de passe est requis" } });
+
+    // hashing password with 10 round of salting
     bcrypt.hash(req.body.password, 10)
         .then( async (hashedPassword) => {
 
