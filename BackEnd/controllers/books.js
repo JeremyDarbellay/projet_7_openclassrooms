@@ -122,7 +122,6 @@ exports.createOneBook = (req, res, next) => {
   // test for correct type, because validation occurs on save
   const grade = book.ratings[0].grade
   if (typeof (grade) !== "number") {
-    console.log(typeof (grade));
 
     // remove file because book rejected
     const filename = book.imageUrl.split("/public/images/")[1];
