@@ -1,7 +1,7 @@
 ![bannière du vieux grimoire](./assets/vieux-grimoire-banner.png)
 # Le vieux Grimoire
 
-Je suis Jérémy Darbellay, développeur freelance, je travaille actuellement sur le projet du vieux grimoire, c'est un site de notation de livre entièrement codé en JavaScript, mon travail sur ce projet est de construire le back-end de cette application. Pour cela, j'ai du construire un back-end en Node.js, avec pour objectif que le front écrit avec React puisse afficher les données provenant du back. Au menu, un système d'authentification, des opérations cRUd sur des entités (livres) et un système de notation avec calcul de la note moyenne.
+Je suis Jérémy Darbellay, développeur freelance, je travaille actuellement sur le projet du vieux grimoire, c'est un site de notation de livre entièrement codé en JavaScript, mon travail sur ce projet est de construire le back-end de cette application. Pour cela, j'ai du construire un back-end en Node.js, avec pour objectif que le front écrit avec React puisse afficher les données provenant du back. Au menu, un système d'authentification, des opérations CRUD sur des entités (livres) et un système de notation avec calcul de la note moyenne.
 
 
 # Sommaire
